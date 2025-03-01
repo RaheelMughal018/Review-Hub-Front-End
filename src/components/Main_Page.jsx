@@ -3,13 +3,12 @@ import { motion } from "framer-motion";
 import Navbar from "./Navbar";
 import { styles } from "../styles";
 import { slideIn } from "../utils/motion";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 // Define an action to store the CSV data in Redux
 const storeCSVData = (csvData) => ({
-  type: 'STORE_CSV_DATA',
+  type: "STORE_CSV_DATA",
   payload: csvData,
 });
 
@@ -30,8 +29,8 @@ const sendScraperRequest = async (videoURL, dispatch) => {
     // Get the CSV data from the response
     const csvData = await response.text();
 
-    console.log("GOING TO STORE data")
-    console.log(csvData)
+    console.log("GOING TO STORE data");
+    console.log(csvData);
 
     // Dispatch an action to store the CSV data in Redux
     dispatch(storeCSVData(csvData));
@@ -42,11 +41,6 @@ const sendScraperRequest = async (videoURL, dispatch) => {
     throw new Error(error.message);
   }
 };
-
-
-
-
-
 
 // Define the main page component
 const MainPage = ({ showAlternative }) => {
@@ -65,18 +59,22 @@ const MainPage = ({ showAlternative }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    if (form.videoURL.trim() !== "") {
-      setLoading(true);
-  
-      try {
-        await sendScraperRequest(form.videoURL,dispatch);
-        navigate('/graph');
-      } catch (error) {
-        console.error("Error sending analysis request:", error);
-      } finally {
-        setLoading(false);
-      }
+
+    if (form.videoURL.trim() === "") {
+      alert("Please enter a valid video URL.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await sendScraperRequest(form.videoURL, dispatch);
+      navigate("/graph");
+    } catch (error) {
+      console.error("🚀 Error sending analysis request:", error);
+      alert("Failed to process the request. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,15 +84,19 @@ const MainPage = ({ showAlternative }) => {
   }
 
   return (
-    <div className={`bg-hero-pattern xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 h-[700px] overflow-hidden`}>
+    <div
+      className={`bg-hero-pattern xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 h-[700px] overflow-hidden`}
+    >
       <Navbar />
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
         className="flex-[0.75] bg-black-300 p-8 rounded-2xl"
-        style={{ marginLeft: '20px', marginTop: '30px' }}
+        style={{ marginLeft: "20px", marginTop: "30px" }}
       >
         <h3 className={styles.sectionHeadText}>YT Sentiment</h3>
-        <p className={styles.sectionSubText} style={{ fontSize: '30px' }}>Please Enter Your Video URL</p>
+        <p className={styles.sectionSubText} style={{ fontSize: "30px" }}>
+          Please Enter Your Video URL
+        </p>
 
         <form
           ref={formRef}
@@ -116,7 +118,7 @@ const MainPage = ({ showAlternative }) => {
           <button
             type="submit"
             className="bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary"
-            disabled={loading} 
+            disabled={loading}
           >
             {loading ? "Please wait..." : "Perform Analysis"}
           </button>

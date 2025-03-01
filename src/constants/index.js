@@ -64,7 +64,7 @@ const services = [
     icon: mobile,
   },
   {
-    title: "Recoomendations",
+    title: "Recomendations",
     icon: backend,
   },
   {

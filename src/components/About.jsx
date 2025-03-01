@@ -46,20 +46,28 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
       >
-       At ReviewHub, we believe in the power of understanding. Our journey began with a simple yet profound realization – in the fast-paced world of today, businesses and individuals need swift, insightful solutions to truly connect with their audience and enhance their offerings.
-
-Driven by this vision, we embarked on a mission to create a product that would redefine the way feedback is analyzed and insights are gained. Our team is a diverse blend of tech enthusiasts, data wizards, and customer-centric minds, all united by a passion for simplifying the complex.
+        At ReviewHub, we believe in the power of understanding. Our journey
+        began with a simple yet profound realization – in the fast-paced world
+        of today, businesses and individuals need swift, insightful solutions to
+        truly connect with their audience and enhance their offerings. Driven by
+        this vision, we embarked on a mission to create a product that would
+        redefine the way feedback is analyzed and insights are gained. Our team
+        is a diverse blend of tech enthusiasts, data wizards, and
+        customer-centric minds, all united by a passion for simplifying the
+        complex.
       </motion.p>
 
       <div className="mt-20 flex flex-wrap gap-10">
         {services.map((service, index) => (
           <ServiceCard key={service.title} index={index} {...service} />
         ))}
-       <button>submit</button>
+        <div className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate
+          ut cum quibusdam voluptate illo deleniti sunt, voluptatem nesciunt
+          mollitia repudiandae officia itaque voluptas.
+        </div>
       </div>
-     
     </>
-
   );
 };
 
