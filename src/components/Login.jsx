@@ -46,8 +46,8 @@ const Login = () => {
       }
 
       const data = await response.json();
-      // console.log("🚀 ~ Login.jsx:49 ~ data:", data);
-      const authToken = data?.data?.token; // Extract token from the response
+      console.log("🚀 ~ Login.jsx:49 ~ data:", data);
+      const authToken = data?.token; // Extract token from the response
 
       console.log("Authorization Token:", authToken);
 

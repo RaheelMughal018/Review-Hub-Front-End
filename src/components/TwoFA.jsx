@@ -44,17 +44,19 @@ const TwoFA = () => {
         },
         body: JSON.stringify({ email: SendEmail }),
       });
+      // console.log("🚀 ~ handleSubmit ~ response:", response)
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log("🚀 ~ handleSubmit ~ data:", data)
 
       setLoading(false);
 
       // Compare the entered code with the two_FA_key
-      if (form.code === data?.data[0]?.two_FA_key) {
+      if (form.code === data[0]?.two_FA_key) {
         console.log("Code is correct!");
         navigate("/");
       } else {

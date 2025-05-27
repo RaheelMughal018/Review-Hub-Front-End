@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { slideIn } from "../utils/motion";
 import StarsCanvas from "./canvas/Stars";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "../action";
 import Lighty from "./GlowingCursor";
 
@@ -48,6 +48,7 @@ const Signup = () => {
       }
 
       const data = await response.json();
+      
 
       // Store email in Redux state
       dispatch(setEmail(form.email));

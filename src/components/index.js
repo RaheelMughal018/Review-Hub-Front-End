@@ -15,7 +15,7 @@ import TwoFA from './TwoFA';
 import MainPage from './Main_Page';
 import GlowingCursor from './GlowingCursor';
 import ChartComponent from './Graph';
-import Amazon from './amazon';
+import Amazon from './Amazon';
 
 
 
