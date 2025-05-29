@@ -9,6 +9,7 @@ import Navbar from "./Navbar";
 
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   const formRef = useRef();
@@ -43,7 +44,7 @@ const Contact = () => {
 
     if (response.ok) {
       setLoading(false);
-      alert('Thank you. I will get back to you as soon as possible.');
+      toast.success('Thank you. I will get back to you as soon as possible.');
 
       setForm({
         name: '',
@@ -51,12 +52,13 @@ const Contact = () => {
         message: '',
       });
     } else {
+      setLoading(false);
       throw new Error('Something went wrong.');
     }
   } catch (error) {
     setLoading(false);
     console.error(error);
-    alert('Something went wrong.');
+    toast.error('Something went wrong.',error);
   }
 };
 

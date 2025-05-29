@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { setEmail } from "../action";
 import { setAuthToken } from "../action";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const formRef = useRef();
@@ -46,7 +47,7 @@ const Login = () => {
       }
 
       const data = await response.json();
-      console.log("🚀 ~ Login.jsx:49 ~ data:", data);
+      
       const authToken = data?.token; // Extract token from the response
 
       console.log("Authorization Token:", authToken);
@@ -59,14 +60,14 @@ const Login = () => {
         // Dispatch Redux actions
         dispatch(setEmail(form.email));
         dispatch(setAuthToken(authToken));
-
+        toast.success("Login successful!");
         navigate("/");
       } else {
-        alert("Token not found in the response");
+        toast.error("Token not found in the response");
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong.");
+      console.log("Error:", error);
+      toast.error("Something went wrong.",error);
     } finally {
       setLoading(false);
     }

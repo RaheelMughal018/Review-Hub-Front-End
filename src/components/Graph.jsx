@@ -512,13 +512,16 @@ const ChartComponent = () => {
       </div>
 
       <h1 className={`${styles.heroHeadText} text-white`}>Recommendation</h1>
-      <Slideshow
-        label="Recommendation"
-        data={data}
-        style={{ margin: "20px" }}
-      />
+      <div style={{ width: "100%", maxWidth: "1200px", marginBottom: "30px" }}>
+        <Slideshow
+          label="Recommendation"
+          data={data}
+        />
+      </div>
       <h1 className={`${styles.heroHeadText} text-white`}>Question</h1>
-      <Slideshow label="Question" data={data} />
+      <div style={{ width: "100%", maxWidth: "1200px", marginBottom: "30px" }}>
+        <Slideshow label="Question" data={data} />
+      </div>
 
       <button
         onClick={saveAsPDF}

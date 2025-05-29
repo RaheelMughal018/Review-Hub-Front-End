@@ -5,6 +5,7 @@ import { styles } from "../styles";
 import { slideIn } from "../utils/motion";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 // Define an action to store the CSV data in Redux
 const storeCSVData = (csvData) => ({
@@ -71,8 +72,8 @@ const MainPage = ({ showAlternative }) => {
       await sendScraperRequest(form.videoURL, dispatch);
       navigate("/graph");
     } catch (error) {
-      console.error("🚀 Error sending analysis request:", error);
-      alert("Failed to process the request. Please try again.");
+      console.log("🚀 Error sending analysis request:", error);
+      toast.error("Failed to process the request. Please try again.");
     } finally {
       setLoading(false);
     }

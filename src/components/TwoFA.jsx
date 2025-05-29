@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import StarsCanvas from "./canvas/Stars";
 import { useSelector, useStore } from "react-redux";
+import { toast } from "react-toastify";
 
 const TwoFA = () => {
   const navigate = useNavigate();
@@ -51,17 +52,17 @@ const TwoFA = () => {
       }
 
       const data = await response.json();
-      console.log("🚀 ~ handleSubmit ~ data:", data)
+      
 
       setLoading(false);
 
       // Compare the entered code with the two_FA_key
       if (form.code === data[0]?.two_FA_key) {
-        console.log("Code is correct!");
+        toast.success("Code is correct! Redirecting...");
         navigate("/");
       } else {
-        console.log("Code is incorrect!");
-        alert("Code is incorrect! Please Try Again.");
+        
+        toast.error("Code is incorrect! Please Try Again.");
       }
 
       // Reset the form fields
@@ -71,8 +72,8 @@ const TwoFA = () => {
       });
     } catch (error) {
       setLoading(false);
-      console.error("Error:", error);
-      alert("Something went wrong.");
+      console.log("Error:", error);
+      toast.error("Something went wrong.",error);
     }
   };
 
