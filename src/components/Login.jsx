@@ -30,48 +30,56 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+  try {
+    const response = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+    // Parse the JSON response (even on error responses)
+    const data = await response.json();
 
-      const data = await response.json();
-      
-      const authToken = data?.token; // Extract token from the response
-
-      console.log("Authorization Token:", authToken);
-
-      if (authToken) {
-        // Store token in preferred storage (Redux, localStorage, etc.)
-        localStorage.setItem("authToken", authToken);
-        localStorage.setItem("Email", form.email);
-
-        // Dispatch Redux actions
-        dispatch(setEmail(form.email));
-        dispatch(setAuthToken(authToken));
-        toast.success("Login successful!");
-        navigate("/");
+    if (!response.ok) {
+      // Handle different error codes with appropriate messages
+      if (response.status === 401) {
+        toast.error(data.error || "Invalid email or password.");
       } else {
-        toast.error("Token not found in the response");
+        toast.error(data.error || "Login failed. Please try again.");
       }
-    } catch (error) {
-      console.log("Error:", error);
-      toast.error("Something went wrong.",error);
-    } finally {
-      setLoading(false);
+      return;
     }
-  };
+
+    // Extract the auth token from the response
+    const authToken = data?.token;
+
+    if (authToken) {
+      // Store token in preferred storage
+      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("Email", form.email);
+
+      // Dispatch Redux actions
+      dispatch(setEmail(form.email));
+      dispatch(setAuthToken(authToken));
+
+      toast.success("Login successful!");
+      navigate("/");
+    } else {
+      toast.error("Token not found in the response");
+    }
+  } catch (error) {
+    console.log("🚀 ~ handleSubmit ~ error:", error);
+    toast.error(error.message || "Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div

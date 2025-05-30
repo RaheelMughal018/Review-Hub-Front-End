@@ -10,7 +10,7 @@ import StarsCanvas from "./canvas/Stars";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "../action";
-import Lighty from "./GlowingCursor";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -43,24 +43,23 @@ const Signup = () => {
         body: JSON.stringify(form),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const data = await response.json();
-      
+
+      if (!response.ok) {
+        // Show backend error message if present
+        throw new Error(data.error || `HTTP error! Status: ${response.status}`);
+      }
 
       // Store email in Redux state
       dispatch(setEmail(form.email));
       navigate("/twofa");
 
-      // Reset form (if needed)
       setForm({
         twoFA: "",
       });
     } catch (error) {
       console.log("🚀 ~ Signup.jsx:65 ~ error:", error);
-      alert("Something went wrong.");
+      toast.error(error.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
