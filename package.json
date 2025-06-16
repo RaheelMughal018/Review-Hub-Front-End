@@ -37,7 +37,8 @@
     "say": "^0.16.0",
     "styled-component": "^2.8.0",
     "styled-components": "^6.1.8",
-    "three": "^0.149.0"
+    "three": "^0.149.0",
+    "validator": "^13.15.15"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

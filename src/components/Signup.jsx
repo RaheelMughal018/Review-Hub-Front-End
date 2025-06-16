@@ -1,9 +1,7 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import { styles } from "../styles";
 import { EarthCanvas } from "./canvas";
-import { SectionWrapper } from "../hoc";
 import { Link } from "react-router-dom";
 import { slideIn } from "../utils/motion";
 import StarsCanvas from "./canvas/Stars";
@@ -11,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "../action";
 import { toast } from "react-toastify";
-
+import axios from 'axios';
+import validator from 'validator'
 const Signup = () => {
   const dispatch = useDispatch();
   const email = useSelector((state) => state.email);
@@ -34,36 +33,51 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
 
+     if (!form.email || !form.name || !form.password) {
+    toast.error("All fields are required");
+    setLoading(false);
+    return;
+  }
+ 
+ if (!validator.isEmail(form.email)) {
+    toast.error("Please enter a valid email address");
+    setLoading(false);
+    return;
+  }
+if (form.password.length < 8) {
+    toast.error("Password must be at least 8 characters long");
+    setLoading(false);
+    return;
+  }
     try {
-      const response = await fetch("http://localhost:3000/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+ const response = await axios.post("http://localhost:3000/api/signup", form);
 
-      const data = await response.json();
+    dispatch(setEmail(form.email));
+    navigate("/twofa");
 
-      if (!response.ok) {
-        // Show backend error message if present
-        throw new Error(data.error || `HTTP error! Status: ${response.status}`);
-      }
+    setForm({
+      twoFA: "",
+    });
 
-      // Store email in Redux state
-      dispatch(setEmail(form.email));
-      navigate("/twofa");
-
-      setForm({
-        twoFA: "",
-      });
-    } catch (error) {
-      console.log("🚀 ~ Signup.jsx:65 ~ error:", error);
-      toast.error(error.message || "Something went wrong.");
-    } finally {
-      setLoading(false);
+  } catch (error) {
+    console.log("🚀 ~ Signup.jsx ~ error:", error);
+    
+    // Handle axios error responses
+    if (error.response) {
+      // Server responded with an error status
+      toast.error(error.response.data.error || "Server error occurred");
+    } else if (error.request) {
+      // Request was made but no response received
+      toast.error("No response from server. Please try again.");
+    } else {
+      // Error in request setup
+      toast.error("Failed to make request. Please try again.");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+    
 
   return (
     <div

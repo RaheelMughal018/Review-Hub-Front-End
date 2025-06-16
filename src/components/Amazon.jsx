@@ -94,7 +94,7 @@ const Amazon = ({ showAlternative }) => {
         style={{ marginLeft: '20px', marginTop: '30px' }}
       >
         <h3 className={styles.sectionHeadText}>Amazon Sentiment</h3>
-        <p className={styles.sectionSubText} style={{ fontSize: '30px' }}>Please Enter Your Video URL</p>
+        <p className={styles.sectionSubText} style={{ fontSize: '30px' }}>Please Enter Your product URL</p>
 
         <form
           ref={formRef}
@@ -102,7 +102,7 @@ const Amazon = ({ showAlternative }) => {
           className="mt-10 flex flex-col gap-8"
         >
           <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Video URL</span>
+            <span className="text-white font-medium mb-4">Product URL</span>
             <input
               type="text"
               name="videoURL"
